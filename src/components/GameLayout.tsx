@@ -12,7 +12,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
   footer,
 }) => {
   return (
-    <div className="min-h-screen w-full bg-white text-black flex flex-col items-center justify-between p-4 overflow-hidden font-sans">
+    <div className="h-screen w-full bg-white text-black flex flex-col items-center justify-between p-4 overflow-hidden font-sans fixed inset-0">
       {/* Background effects could go here (e.g. subtle gradient blobs) */}
       <div className="fixed inset-0 bg-linear-to-br from-white to-gray-100 -z-10" />
 
