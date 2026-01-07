@@ -36,13 +36,15 @@ export const ResultsScreen: React.FC = () => {
           layout
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="text-center space-y-2 md:space-y-4 shrink-0"
+          className="text-center space-y-1 md:space-y-4 shrink-0"
         >
-          <div className="text-5xl md:text-6xl">{passed ? "🏆" : "❌"}</div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-black">
+          <div className="text-4xl md:text-6xl mb-1">
+            {passed ? "🏆" : "❌"}
+          </div>
+          <h2 className="text-2xl md:text-5xl font-extrabold text-black leading-tight">
             {passed ? "Assessment Passed!" : "Failed"}
           </h2>
-          <div className="text-lg md:text-xl text-gray-600">
+          <div className="text-base md:text-xl text-gray-600">
             You cleared{" "}
             <span className="text-black font-bold">
               {score}/{totalRounds}
