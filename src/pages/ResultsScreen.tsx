@@ -30,8 +30,8 @@ export const ResultsScreen: React.FC = () => {
   const [showDetails, setShowDetails] = useState(false);
 
   return (
-    <GameLayout layoutMode="responsive">
-      <div className="flex flex-col items-center w-full max-w-2xl h-full space-y-4 md:space-y-8 py-2 md:py-8">
+    <GameLayout layoutMode="scrollable">
+      <div className="flex flex-col items-center w-full max-w-2xl min-h-full space-y-4 md:space-y-8 py-2 md:py-8">
         <motion.div
           layout
           initial={{ scale: 0.8, opacity: 0 }}
@@ -73,7 +73,7 @@ export const ResultsScreen: React.FC = () => {
           </button>
         </div>
 
-        <div className="flex-1 w-full bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-4 md:p-6 shadow-lg flex flex-col min-h-0">
+        <div className="w-full bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-4 md:p-6 shadow-lg flex flex-col">
           <div className="flex justify-between items-center mb-4 shrink-0">
             <h3 className="text-lg md:text-xl font-bold text-gray-700">
               Round History
@@ -86,7 +86,7 @@ export const ResultsScreen: React.FC = () => {
             </button>
           </div>
 
-          <div className="space-y-3 overflow-y-auto pr-2 custom-scrollbar flex-1">
+          <div className="space-y-3">
             {results.map((res) => (
               <div
                 key={res.roundNumber}

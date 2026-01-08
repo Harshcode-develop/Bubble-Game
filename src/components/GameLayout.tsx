@@ -4,7 +4,7 @@ interface GameLayoutProps {
   children: React.ReactNode;
   header?: React.ReactNode;
   footer?: React.ReactNode;
-  layoutMode?: "fixed" | "responsive"; // fixed = h-screen always. responsive = h-screen mobile, min-h-screen desktop
+  layoutMode?: "fixed" | "scrollable"; // fixed = no scroll. scrollable = scrollable on all devices with hidden bar
 }
 
 export const GameLayout: React.FC<GameLayoutProps> = ({
@@ -16,7 +16,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
   const containerClasses =
     layoutMode === "fixed"
       ? "h-screen fixed inset-0 overflow-hidden"
-      : "h-screen fixed inset-0 md:relative md:inset-auto md:h-auto md:min-h-screen md:overflow-visible overflow-hidden";
+      : "h-screen fixed inset-0 overflow-y-auto custom-scrollbar";
 
   return (
     <div
