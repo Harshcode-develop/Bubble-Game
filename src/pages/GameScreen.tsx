@@ -45,14 +45,27 @@ export const GameScreen: React.FC = () => {
         setSelectedIds((prev) => prev.filter((bubbleId) => bubbleId !== id));
       } else {
         if (selectedIds.length < 3) {
-          // Must use functional update based on current selection from state?
-          // Actually selectedIds is in dependency.
           const newSelection = [...selectedIds, id];
           setSelectedIds(newSelection);
+
+          // Auto-advance if this is the 3rd selection
+          if (newSelection.length === 3) {
+            // Use a short timeout to let the user see the visual feedback of selection
+            // Then submit.
+            setTimeout(() => {
+              submitRound(newSelection);
+              setTimeout(() => {
+                nextRound();
+              }, 300); // Wait bit more or less? Total 500ms usually fine.
+              // Let's do submit immediately, then next round?
+              // "until timer dont run out or third bubble... round should not advanced"
+              // User wants auto advance.
+            }, 200);
+          }
         }
       }
     },
-    [selectedIds]
+    [selectedIds, submitRound, nextRound]
   );
 
   return (
@@ -72,29 +85,12 @@ export const GameScreen: React.FC = () => {
           <div className="w-20 md:w-24" /> {/* Spacer to balance header */}
         </div>
       }
-      footer={
-        <div className="flex flex-col items-center space-y-2 md:space-y-4 pb-4">
-          <div className="text-gray-500 text-[10px] md:text-sm uppercase tracking-widest font-semibold">
-            Select Lowest to Highest
-          </div>
-          {/* Shuffle Button */}
-          {gameMode !== "MAIN_30" && (
-            <button
-              onClick={shuffleCurrentBubbles}
-              className="flex items-center space-x-2 text-gray-500 hover:text-black transition-colors px-3 py-1.5 md:px-4 md:py-2 border border-gray-300 rounded-full hover:bg-gray-100 text-xs md:text-base"
-            >
-              <RefreshCw className="w-3 h-3 md:w-4 md:h-4" />
-              <span>Shuffle</span>
-            </button>
-          )}
-        </div>
-      }
     >
-      <div className="flex flex-col items-center justify-start pt-8 md:pt-0 md:justify-center h-full w-full space-y-6 md:space-y-12">
+      <div className="flex flex-col items-center justify-start pt-8 md:pt-0 md:justify-center h-full w-full space-y-4 md:space-y-12">
         {/* Timer */}
-        <div className="mb-2 md:mb-4">
+        <div className="mb-0 md:mb-4">
           <Timer
-            duration={15}
+            duration={10}
             onComplete={handleTimeout}
             isRunning={true}
             resetKey={timerKey}
@@ -139,6 +135,23 @@ export const GameScreen: React.FC = () => {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Footer Controls (Moved up for mobile optimization) */}
+        <div className="flex flex-col items-center space-y-2 md:space-y-4 pb-4">
+          <div className="text-gray-500 text-[10px] md:text-sm uppercase tracking-widest font-semibold">
+            Select Lowest to Highest
+          </div>
+          {/* Shuffle Button */}
+          {gameMode !== "MAIN_30" && (
+            <button
+              onClick={shuffleCurrentBubbles}
+              className="flex items-center space-x-2 text-gray-500 hover:text-black transition-colors px-3 py-1.5 md:px-4 md:py-2 border border-gray-300 rounded-full hover:bg-gray-100 text-xs md:text-base"
+            >
+              <RefreshCw className="w-3 h-3 md:w-4 md:h-4" />
+              <span>Shuffle</span>
+            </button>
+          )}
         </div>
       </div>
     </GameLayout>

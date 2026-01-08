@@ -30,7 +30,7 @@ export const ResultsScreen: React.FC = () => {
   const [showDetails, setShowDetails] = useState(false);
 
   return (
-    <GameLayout>
+    <GameLayout layoutMode="responsive">
       <div className="flex flex-col items-center w-full max-w-2xl h-full space-y-4 md:space-y-8 py-2 md:py-8">
         <motion.div
           layout

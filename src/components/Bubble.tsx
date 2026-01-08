@@ -36,7 +36,7 @@ export const Bubble = React.memo(
         }}
         className={`
         relative flex items-center justify-center
-        w-24 h-24 md:w-36 md:h-36 rounded-full
+        w-28 h-28 md:w-36 md:h-36 rounded-full
         cursor-pointer select-none
         border-4 shadow-xl
         transition-colors duration-300

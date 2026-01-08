@@ -4,6 +4,7 @@ import {
   useState,
   type ReactNode,
   useCallback,
+  useMemo,
 } from "react";
 import type {
   GameModeType,
@@ -126,20 +127,19 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     }));
   }, []);
 
-  return (
-    <GameContext.Provider
-      value={{
-        ...state,
-        startGame,
-        submitRound,
-        nextRound,
-        resetGame,
-        shuffleCurrentBubbles,
-      }}
-    >
-      {children}
-    </GameContext.Provider>
+  const value = useMemo(
+    () => ({
+      ...state,
+      startGame,
+      submitRound,
+      nextRound,
+      resetGame,
+      shuffleCurrentBubbles,
+    }),
+    [state, startGame, submitRound, nextRound, resetGame, shuffleCurrentBubbles]
   );
+
+  return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 };
 
 export const useGame = () => {
