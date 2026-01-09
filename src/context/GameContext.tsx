@@ -60,6 +60,11 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
   const submitRound = useCallback((userSequence: string[]) => {
     setState((prev) => {
+      // Prevent duplicate submissions for the same round
+      if (prev.results.some((r) => r.roundNumber === prev.currentRound)) {
+        return prev;
+      }
+
       // Calculate correctness
       const { bubbles } = prev;
       // Filter bubbles to match the sequence (handled by caller usually, but let's be safe)

@@ -114,14 +114,24 @@ export const ResultsScreen: React.FC = () => {
                       <div>
                         <div className="text-gray-500 mb-1">Your Order:</div>
                         <div className="flex flex-col space-y-1">
-                          {res.userSequence.map((id, idx) => (
-                            <span key={`u-${idx}`} className="text-red-400">
-                              {res.expressions[id]}
-                            </span>
-                          ))}
-                          {res.userSequence.length === 0 && (
-                            <span className="text-gray-600">No selection</span>
-                          )}
+                          {[0, 1, 2].map((i) => {
+                            const id = res.userSequence[i];
+                            if (!id) {
+                              return (
+                                <span
+                                  key={`u-${i}`}
+                                  className="text-gray-400 italic text-[10px] md:text-xs"
+                                >
+                                  -- Missed --
+                                </span>
+                              );
+                            }
+                            return (
+                              <span key={`u-${i}`} className="text-red-400">
+                                {res.expressions[id]}
+                              </span>
+                            );
+                          })}
                         </div>
                       </div>
                       <div>

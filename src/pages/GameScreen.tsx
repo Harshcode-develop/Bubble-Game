@@ -20,26 +20,35 @@ export const GameScreen: React.FC = () => {
 
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [timerKey, setTimerKey] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Reset selection when round changes
   useEffect(() => {
     setSelectedIds([]);
+    setIsSubmitting(false); // Reset submission flag
     setTimerKey((prev) => prev + 1); // Reset timer
   }, [currentRound, bubbles]); // bubbles change means new round or shuffle
 
   // Auto-advance logic handled by Timer onComplete
   // Wrap in useCallback to prevent infinite effect triggers in Timer
   const handleTimeout = React.useCallback(() => {
+    // If we are already submitting (e.g. via auto-advance), ignore timeout
+    if (isSubmitting) return;
+
     // Timeout means failure for this round if not already submitted?
     // User requirement: "after 15 secs timer is over it will automatically advanced to next round"
+    setIsSubmitting(true); // Lock interactions
     submitRound(selectedIds);
     setTimeout(() => {
       nextRound();
     }, 500);
-  }, [selectedIds, submitRound, nextRound]);
+  }, [selectedIds, submitRound, nextRound, isSubmitting]);
 
   const handleBubbleClick = React.useCallback(
     (id: string) => {
+      // If submitting, block interactions
+      if (isSubmitting) return;
+
       if (selectedIds.includes(id)) {
         // Deselect if already selected
         setSelectedIds((prev) => prev.filter((bubbleId) => bubbleId !== id));
@@ -50,6 +59,7 @@ export const GameScreen: React.FC = () => {
 
           // Auto-advance if this is the 3rd selection
           if (newSelection.length === 3) {
+            setIsSubmitting(true); // Lock operations
             // Use a short timeout to let the user see the visual feedback of selection
             // Then submit.
             setTimeout(() => {
@@ -65,7 +75,7 @@ export const GameScreen: React.FC = () => {
         }
       }
     },
-    [selectedIds, submitRound, nextRound]
+    [selectedIds, submitRound, nextRound, isSubmitting]
   );
 
   return (
